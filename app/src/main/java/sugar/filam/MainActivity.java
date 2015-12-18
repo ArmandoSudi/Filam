@@ -1,13 +1,14 @@
 package sugar.filam;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,15 +18,36 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        
+        ListView moviesListView = (ListView) findViewById(R.id.listView);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        Movie[] movies = {
+                new Movie("Hunger Games", R.drawable.ic_launcher, "Some girls getting revenge", "Not bad"),
+                new Movie("Iron man 3", R.drawable.ic_launcher, "Ssome genius guy", "Not bad"),
+                new Movie("Super man", R.drawable.ic_launcher, "The closest to saiyan", "Not bad"),
+                new Movie("James Bond", R.drawable.ic_launcher, "Some gspy", "Not bad"),
+                new Movie("Hunger Games", R.drawable.ic_launcher, "Some girls getting revenge", "Not bad"),
+                new Movie("Hunger Games", R.drawable.ic_launcher, "Some girls getting revenge", "Not bad"),
+                new Movie("Hunger Games", R.drawable.ic_launcher, "Some girls getting revenge", "Not bad"),
+                new Movie("Hunger Games", R.drawable.ic_launcher, "Some girls getting revenge", "Not bad"),
+                new Movie("Hunger Games", R.drawable.ic_launcher, "Some girls getting revenge", "Not bad"),
+                new Movie("Hunger Games", R.drawable.ic_launcher, "Some girls getting revenge", "Not bad"),
+                new Movie("Hunger Games", R.drawable.ic_launcher, "Some girls getting revenge", "Not bad"),
+                new Movie("Hunger Games", R.drawable.ic_launcher, "Some girls getting revenge", "Not bad"),
+                new Movie("Hunger Games", R.drawable.ic_launcher, "Some girls getting revenge", "Not bad"),
+                new Movie("Hunger Games", R.drawable.ic_launcher, "Some girls getting revenge", "Not bad"),
+                new Movie("Hunger Games", R.drawable.ic_launcher, "Some girls getting revenge", "Not bad"),
+                new Movie("Hunger Games", R.drawable.ic_launcher, "Some girls getting revenge", "Not bad"),
+                new Movie("Hunger Games", R.drawable.ic_launcher, "Some girls getting revenge", "Not bad"),
+                new Movie("Hunger Games", R.drawable.ic_launcher, "Some girls getting revenge", "Not bad"),
+                new Movie("Hunger Games", R.drawable.ic_launcher, "Some girls getting revenge", "Not bad"),
+                new Movie("Hunger Games", R.drawable.ic_launcher, "Some girls getting revenge", "Not bad"),
+                new Movie("Hunger Games", R.drawable.ic_launcher, "Some girls getting revenge", "Not bad"),
+        };
+        List<Movie> moviesList = Arrays.<Movie>asList(movies);
+
+        MovieAdapter movieAdapter = new MovieAdapter(this, moviesList);
+        moviesListView.setAdapter(movieAdapter);
     }
 
     @Override

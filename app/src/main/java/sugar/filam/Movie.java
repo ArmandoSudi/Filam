@@ -5,23 +5,23 @@ package sugar.filam;
  */
 public class Movie {
 
-    private StringBuilder originalTitle;
+    private String originalTitle;
     private int image;
-    private StringBuilder synopsis;
-    private StringBuilder userRating;
+    private String synopsis;
+    private String userRating;
 
-    public Movie(StringBuilder originalTitle, int image, StringBuilder synopsis, StringBuilder userRating) {
+    public Movie(String originalTitle, int image, String synopsis, String userRating) {
         this.originalTitle = originalTitle;
         this.image = image;
         this.synopsis = synopsis;
         this.userRating = userRating;
     }
 
-    public StringBuilder getOriginalTitle() {
+    public String getOriginalTitle() {
         return originalTitle;
     }
 
-    public void setOriginalTitle(StringBuilder originalTitle) {
+    public void setOriginalTitle(String originalTitle) {
         this.originalTitle = originalTitle;
     }
 
@@ -33,19 +33,19 @@ public class Movie {
         this.image = image;
     }
 
-    public StringBuilder getSynopsis() {
+    public String getSynopsis() {
         return synopsis;
     }
 
-    public void setSynopsis(StringBuilder synopsis) {
+    public void setSynopsis(String synopsis) {
         this.synopsis = synopsis;
     }
 
-    public StringBuilder getUserRating() {
+    public String getUserRating() {
         return userRating;
     }
 
-    public void setUserRating(StringBuilder userRating) {
+    public void setUserRating(String userRating) {
         this.userRating = userRating;
     }
 
