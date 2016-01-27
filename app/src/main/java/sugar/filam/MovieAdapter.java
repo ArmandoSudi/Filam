@@ -1,12 +1,14 @@
 package sugar.filam;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -16,6 +18,7 @@ import java.util.List;
 public class MovieAdapter extends ArrayAdapter<Movie> {
 
     private static final String LOG_TAG = MovieAdapter.class.getSimpleName();
+    private static final String MOVIEDB_MOVIE_POSTER_BASE_URL = "http://image.tmdb.org/t/p/w342";
 
     public MovieAdapter(Activity context, List<Movie> movies) {
         super(context, 0, movies);
@@ -28,13 +31,8 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.movie_item_layout, parent, false);
-
             viewHolder = new ViewHolder();
-
             viewHolder.moviePoster = (ImageView) convertView.findViewById(R.id.movie_poster);
-            viewHolder.movieTitle = (TextView) convertView.findViewById(R.id.movie_title);
-            viewHolder.movieRating = (TextView) convertView.findViewById(R.id.movie_rating);
-
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder)convertView.getTag();
@@ -42,9 +40,9 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
        Movie movie = getItem(position);
         if (movie != null) {
-            viewHolder.moviePoster.setImageResource(movie.getImage());
-            viewHolder.movieTitle.setText(movie.getOriginalTitle());
-            viewHolder.movieRating.setText(movie.getUserRating());
+            // TODO : create an asynch task to download the movie poster
+            Picasso.with(getContext()).load(MOVIEDB_MOVIE_POSTER_BASE_URL+movie.getPosterPath()).into(viewHolder.moviePoster);
+            Log.i(LOG_TAG, movie.getPosterPath());
         }
 
         return convertView;
@@ -52,7 +50,5 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
     private static class ViewHolder {
         ImageView moviePoster;
-        TextView movieTitle;
-        TextView movieRating;
     }
 }
