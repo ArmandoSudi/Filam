@@ -3,4 +3,5 @@
     <string name="action_settings">Settings</string>
     <string name="api_key">170a7cb366b5cf917c88a34337412f6f</string>
     <string name="movie_poster">Movie poster</string>
+    <string name="title_activity_movie_details">MovieDetailsActivity</string>
 </resources>

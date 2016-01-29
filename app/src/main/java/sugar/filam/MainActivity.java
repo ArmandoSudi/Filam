@@ -1,5 +1,6 @@
 package sugar.filam;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import org.json.JSONArray;
@@ -27,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MovieAdapter movieAdapter;
     private final String LOG_TAG = MainActivity.class.getSimpleName();
+    private final String TAG = "movie";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,15 @@ public class MainActivity extends AppCompatActivity {
 
         movieAdapter = new MovieAdapter(this, new ArrayList<Movie>());
         moviesPosterGrid.setAdapter(movieAdapter);
+        moviesPosterGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Movie movie = (Movie)parent.getAdapter().getItem(position);
+                Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
+                intent.putExtra(TAG, movie);
+                startActivity(intent);
+            }
+        });
         updateMovies();
     }
 
@@ -73,10 +86,10 @@ public class MainActivity extends AppCompatActivity {
         final String MOVIE_ORIGINAL_TITLE = "original_title";
         final String MOVIE_OVERVIEW = "overview";
         final String MOVIE_RELEASE_DATE = "release_date";
-        final boolean MOVIE_IS_ADULT = false;
         final String MOVIE_POSTER_PATH = "poster_path";
+        final String MOVIE_VOTE_AVERAGE = "vote_average";
+        final boolean MOVIE_IS_ADULT = false;
         final String MOVIE_POPULARITY = "popularity";
-        final String MOVIE_VOTE_COUNT = "vote_count";
 
         List<Movie> movies = new ArrayList<Movie>();
 
@@ -86,11 +99,14 @@ public class MainActivity extends AppCompatActivity {
         for(int i=0; i < movieArray.length(); i++){
             JSONObject movieJsonObject = movieArray.getJSONObject(i);
             String title = movieJsonObject.getString(MOVIE_ORIGINAL_TITLE);
-            String rating = movieJsonObject.getString(MOVIE_POPULARITY);
+            String synopsis = movieJsonObject.getString(MOVIE_OVERVIEW);
+            String rating = movieJsonObject.getString(MOVIE_VOTE_AVERAGE);
             String releaseDate = movieJsonObject.getString(MOVIE_RELEASE_DATE);
             String posterPath = movieJsonObject.getString(MOVIE_POSTER_PATH);
-            movies.add(new Movie(title, rating, releaseDate, posterPath));
-            Log.d(LOG_TAG, title + " " + rating);
+            movies.add(new Movie(title, synopsis, rating, releaseDate, posterPath));
+
+            // Checking if the movie detais have been successfully retrieved
+            Log.d(LOG_TAG, title + " " + rating + " " + releaseDate + " " + posterPath);
         }
 
         return movies;
@@ -118,8 +134,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected List<Movie> doInBackground(Void... params) {
             // READING DATA FROM THE API PROVIDED BY THE MOVIEDB
-            HttpURLConnection urlConnection = null;
-            BufferedReader reader = null;
+            HttpURLConnection urlConnection;
+            BufferedReader reader;
             String moviesJson;
             List<Movie> results;
 
@@ -135,6 +151,9 @@ public class MainActivity extends AppCompatActivity {
                         .appendQueryParameter(API_KEY_PARAM, getResources().getString(R.string.api_key))
                         .build();
                 URL url = new URL(builtUri.toString());
+
+                // url built for the query
+                Log.d(TAG, url.toString());
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();

@@ -41,8 +41,9 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
        Movie movie = getItem(position);
         if (movie != null) {
             // TODO : create an asynch task to download the movie poster
-            Picasso.with(getContext()).load(MOVIEDB_MOVIE_POSTER_BASE_URL+movie.getPosterPath()).into(viewHolder.moviePoster);
+            Picasso.with(getContext()).load(MOVIEDB_MOVIE_POSTER_BASE_URL + movie.getPosterPath()).into(viewHolder.moviePoster);
             Log.i(LOG_TAG, movie.getPosterPath());
+            Log.i(LOG_TAG, movie.getReleaseDate());
         }
 
         return convertView;

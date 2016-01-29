@@ -1,86 +1,75 @@
 package sugar.filam;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * author : sugar on 6/12/15.
  */
-public class Movie {
+public class Movie implements Parcelable {
 
-    private String originalTitle;
-    private int image;
-    private String synopsis;
-    private String userRating;
-    private String releaseDate;
-    private String posterPath;
+    private final String originalTitle;
+    private final String synopsis;
+    private final String userRating;
+    private final String releaseDate;
+    private final String posterPath;
 
-    public String getPosterPath() {
-        return posterPath;
-    }
-
-    public void setPosterPath(String posterPath) {
-        this.posterPath = posterPath;
-    }
-
-    public Movie(String originalTitle, int image, String synopsis, String userRating, String posterPath) {
+    public Movie(String originalTitle,String synopsis, String userRating, String releaseDate, String posterPath) {
         this.originalTitle = originalTitle;
-        this.image = image;
         this.synopsis = synopsis;
         this.userRating = userRating;
-        this.posterPath = posterPath;
-
-    }
-
-    public Movie(String originalTitle, String userRating, String releaseDate, String posterPath) {
-        this.originalTitle = originalTitle;
-        this.userRating = userRating;
         this.releaseDate = releaseDate;
         this.posterPath = posterPath;
     }
 
-    public String getReleaseDate() {
-
-        return releaseDate;
+    private Movie(Parcel parcel) {
+        originalTitle = parcel.readString();
+        synopsis = parcel.readString();
+        userRating = parcel.readString();
+        releaseDate = parcel.readString();
+        posterPath = parcel.readString();
     }
 
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public String getOriginalTitle() {
-        return originalTitle;
+    // saving data
+    @Override
+    public void writeToParcel(Parcel destination, int flags) {
+        destination.writeString(originalTitle);
+        destination.writeString(synopsis);
+        destination.writeString(userRating);
+        destination.writeString(releaseDate);
+        destination.writeString(posterPath);
     }
 
-    public void setOriginalTitle(String originalTitle) {
-        this.originalTitle = originalTitle;
-    }
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel source) {
+            return new Movie(source);
+        }
 
-    public int getImage() {
-        return image;
-    }
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 
-    public void setImage(int image) {
-        this.image = image;
-    }
-
+    public String getPosterPath() {return this.posterPath;}
+    public String getReleaseDate() {return this.releaseDate;}
+    public String getOriginalTitle() {return this.originalTitle;}
     public String getSynopsis() {
-        return synopsis;
+        return this.synopsis;
     }
-
-    public void setSynopsis(String synopsis) {
-        this.synopsis = synopsis;
-    }
-
-    public String getUserRating() {
-        return userRating;
-    }
-
-    public void setUserRating(String userRating) {
-        this.userRating = userRating;
-    }
+    public String getUserRating() {return this.userRating;}
 
     @Override
     public String toString() {
         return "Movie{" +
-                "originalTitle=" + originalTitle +
+                "originalTitle=" + this.originalTitle +
                 '}';
     }
+
 }
